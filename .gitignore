@@ -1,0 +1,55 @@
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binaries
+*.test
+
+# Coverage output
+*.out
+coverage.*
+
+# Go workspace
+go.work
+go.work.sum
+
+# Vendor directory
+vendor/
+
+# Build output
+bin/
+build/
+dist/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Environment / secrets
+.env
+.env.*
+*.env
+secrets/
+*.secret
+
+# IDE / editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Debugger
+__debug_bin
+debug
