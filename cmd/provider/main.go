@@ -8,7 +8,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/keyvault/azsecrets"
 	"github.com/docker/secrets-engine/plugin"
 	"github.com/kryptonian001/docker-azure-keyvault-provider/internal/config"
-	"github.com/kryptonian001/docker-azure-keyvault-provider/internal/keyvault/provider"
+	"github.com/kryptonian001/docker-azure-keyvault-provider/internal/provider"
 )
 
 func main() {
