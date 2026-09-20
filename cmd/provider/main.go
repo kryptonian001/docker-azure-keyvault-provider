@@ -19,6 +19,7 @@ package main
 import (
 	"context"
 	"log"
+	"log/slog"
 	"net"
 	"os"
 	"path/filepath"
@@ -53,7 +54,25 @@ func main() {
 
 	// Create credentials for Azure
 	logger.Debug("creating Azure credentials")
-	credential, err := azidentity.NewDefaultAzureCredential(nil)
+	credential, err := azidentity.NewDeviceCodeCredential(
+		&azidentity.DeviceCodeCredentialOptions{
+			TenantID: os.Getenv("AZURE_TENANT_ID"),
+			ClientID: os.Getenv("AZURE_CLIENT_ID"),
+
+			UserPrompt: func(
+				ctx context.Context,
+				message azidentity.DeviceCodeMessage,
+			) error {
+				slog.Info(
+					"Azure authentication required",
+					"message",
+					message.Message,
+				)
+
+				return nil
+			},
+		},
+	)
 	if err != nil {
 		logger.Error("failed to create Azure credentials", "error", err)
 		log.Fatalf("failed to create Azure credentials: %v", err)
@@ -73,11 +92,7 @@ func main() {
 	azureProvider := provider.NewWithLogger(client, logger)
 
 	// Docker Desktop exposes its Secrets Engine through engine.sock.
-	socketPath := filepath.Join(
-		os.Getenv("LOCALAPPDATA"),
-		"docker-secrets-engine",
-		"engine.sock",
-	)
+	socketPath := getSecretsEngineSocket()
 
 	logger.Debug("connecting to Docker Secrets Engine", "socketPath", socketPath)
 	conn, err := net.Dial("unix", socketPath)
@@ -120,4 +135,15 @@ func main() {
 	if err := p.Run(ctx); err != nil {
 		log.Fatalf("plugin failed: %v", err)
 	}
+}
+
+func getSecretsEngineSocket() string {
+	if socket := os.Getenv("DOCKER_SECRETS_ENGINE_SOCKET"); socket != "" {
+		return socket
+	}
+	return filepath.Join(
+		os.Getenv("LOCALAPPDATA"),
+		"docker-secrets-engine",
+		"engine.sock",
+	)
 }

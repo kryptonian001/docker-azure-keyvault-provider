@@ -67,6 +67,24 @@ az login
 # Credentials are cached, provider will use them automatically
 ```
 
+**Option B.1: Use Azure CLI with Device Code (Headless)**
+```powershell
+# Use device code for environments without browser access
+az login --use-device-code
+
+# You'll see output like:
+# To sign in, use a web browser to open the page https://microsoft.com/devicelogin
+# and enter the code XXXXXXXXX to authenticate.
+
+# Open the URL on another device with a browser and enter the device code
+# Once authenticated, the provider will use the cached credentials automatically
+```
+Device code login is useful for:
+- Headless/remote servers
+- SSH sessions or terminal-only environments
+- CI/CD pipelines in restricted networks
+- Automated deployments
+
 **Option C: Use Managed Identity (Azure VMs only)**
 ```powershell
 # Ensure VM has managed identity assigned

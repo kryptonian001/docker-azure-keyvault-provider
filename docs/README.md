@@ -43,6 +43,18 @@ az login
 $env:AZURE_KEYVAULT_URL="https://<vault-name>.vault.azure.net/"
 ```
 
+**Option D: Device Code Login (Headless/Remote)**
+```bash
+# Use device code authentication for headless environments
+az login --use-device-code
+$env:AZURE_KEYVAULT_URL="https://<vault-name>.vault.azure.net/"
+```
+Device code login is ideal for:
+- Headless or remote environments without browser access
+- SSH sessions or restricted network environments
+- CI/CD pipelines and automated deployments
+- Scenarios where interactive authentication isn't possible
+
 ### 2. Build the Plugin
 
 ```bash
@@ -70,8 +82,21 @@ The plugin must be run with Docker Secrets Engine. Docker Desktop manages the co
 The plugin uses Azure SDK's default credential chain (in order):
 1. Environment variables (`AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_TENANT_ID`)
 2. Managed Identity (if running on Azure resources)
-3. Azure CLI credentials
+3. Azure CLI credentials (including device code login)
 4. Visual Studio credentials
+
+#### Device Code Login
+Device code login provides an alternative authentication method for scenarios where traditional interactive login isn't available:
+
+```bash
+# Authenticate using device code
+az login --use-device-code
+
+# A device code will be displayed - open the URL in another device's browser
+# and enter the code when prompted
+```
+
+Once authenticated, the provider automatically uses the cached Azure CLI credentials.
 
 ## Usage
 
