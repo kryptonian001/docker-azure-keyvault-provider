@@ -22,7 +22,7 @@ LABEL org.opencontainers.image.title="Azure Key Vault Secrets Provider" \
       org.opencontainers.image.description="Docker Secrets Engine provider for Azure Key Vault" \
       org.opencontainers.image.vendor="Kryptonian" \
       com.docker.desktop.extension.api.version=">= 0.2.0" \
-      com.docker.desktop.extension.icon="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" \
+      com.docker.desktop.extension.icon="https://raw.githubusercontent.com/kryptonian001/docker-azure-keyvault-provider/refs/heads/main/extension-icon.svg" \
       com.docker.extension.screenshots="[]" \
       com.docker.extension.detailed-description="Azure Key Vault provider for Docker Secrets Engine." \
       com.docker.extension.publisher-url="https://github.com/kryptonian001" \
