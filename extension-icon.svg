@@ -1,11 +1,106 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="10" fill="#2496ED"/>
-  <text
-    x="32"
-    y="39"
-    text-anchor="middle"
-    font-family="Arial"
-    font-size="22"
-    font-weight="bold"
-    fill="white">KV</text>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 512 512"
+     role="img"
+     aria-labelledby="title desc">
+
+  <title id="title">Kryptonian Azure Key Vault</title>
+  <desc id="desc">Azure-inspired blue emblem with a slate gray key</desc>
+
+  <defs>
+    <linearGradient id="azureLeft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B5CBD"/>
+      <stop offset="100%" stop-color="#0078D4"/>
+    </linearGradient>
+
+    <linearGradient id="azureRight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1490DF"/>
+      <stop offset="100%" stop-color="#35C1F1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Azure-inspired mark -->
+  <path
+    d="M166 60
+       H230
+       L135 442
+       H38
+       Z"
+    fill="url(#azureLeft)"/>
+
+  <path
+    d="M230 60
+       H332
+       L474 442
+       H340
+       L272 258
+       Z"
+    fill="url(#azureRight)"/>
+
+  <path
+    d="M188 322
+       L272 258
+       L340 442
+       H272
+       Z"
+    fill="#0869C7"/>
+
+  <!-- Key Vault badge -->
+  <circle
+    cx="256"
+    cy="256"
+    r="126"
+    fill="#FFFFFF"
+    stroke="#FFFFFF"
+    stroke-width="14"/>
+
+  <circle
+    cx="256"
+    cy="256"
+    r="112"
+    fill="#FFFFFF"
+    stroke="#0078D4"
+    stroke-width="24"/>
+
+  <!-- Slate-gray key -->
+  <g fill="#4B5563">
+
+    <!-- Key head -->
+    <circle
+      cx="256"
+      cy="211"
+      r="55"/>
+
+    <!-- Key head opening -->
+    <circle
+      cx="256"
+      cy="211"
+      r="21"
+      fill="#FFFFFF"/>
+
+    <!-- Shaft -->
+    <path
+      d="M235 250
+         H277
+         V348
+         L256 368
+         L235 348
+         Z"/>
+
+    <!-- Teeth -->
+    <rect
+      x="270"
+      y="278"
+      width="34"
+      height="20"
+      rx="2"/>
+
+    <rect
+      x="270"
+      y="314"
+      width="34"
+      height="20"
+      rx="2"/>
+
+  </g>
+
 </svg>
