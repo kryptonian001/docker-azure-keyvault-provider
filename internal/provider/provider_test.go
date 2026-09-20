@@ -4,6 +4,8 @@ import (
 	"context"
 	"testing"
 	"time"
+
+	"github.com/kryptonian001/docker-azure-keyvault-provider/internal/logging"
 )
 
 // TestParseSecretName tests the parseSecretName function with various inputs
@@ -174,4 +176,39 @@ func containsSubstring(s, substr string) bool {
 		}
 	}
 	return false
+}
+
+// TestNewProviderWithLogger tests provider creation with a logger
+func TestNewProviderWithLogger(t *testing.T) {
+	logger := &logging.MockLogger{}
+	provider := NewWithLogger(nil, logger)
+
+	if provider == nil {
+		t.Errorf("NewWithLogger() returned nil, want provider instance")
+	}
+
+	if provider.client != nil {
+		t.Errorf("NewWithLogger() with nil client should have nil client, got %v", provider.client)
+	}
+
+	if provider.log != logger {
+		t.Errorf("NewWithLogger() logger not set correctly")
+	}
+}
+
+// mockPattern is a test helper for the plugin.Pattern interface
+type mockPattern struct {
+	value string
+}
+
+func (m *mockPattern) String() string {
+	return m.value
+}
+
+func (m *mockPattern) Dir() string {
+	return ""
+}
+
+func (m *mockPattern) ExpandID(id interface{}) (interface{}, error) {
+	return id, nil
 }

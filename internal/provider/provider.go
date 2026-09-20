@@ -8,6 +8,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/keyvault/azsecrets"
 	"github.com/docker/secrets-engine/plugin"
+	"github.com/kryptonian001/docker-azure-keyvault-provider/internal/logging"
 )
 
 const secretPrefix = "azure/"
@@ -19,6 +20,7 @@ const secretPrefix = "azure/"
 // contain forward slashes or be empty.
 type AzureKeyVaultProvider struct {
 	client *azsecrets.Client
+	log    logging.Logger
 }
 
 // New creates a new AzureKeyVaultProvider with the given Azure secrets client.
@@ -26,6 +28,16 @@ type AzureKeyVaultProvider struct {
 func New(client *azsecrets.Client) *AzureKeyVaultProvider {
 	return &AzureKeyVaultProvider{
 		client: client,
+		log:    logging.NewNoOpLogger(),
+	}
+}
+
+// NewWithLogger creates a new AzureKeyVaultProvider with the given Azure secrets client
+// and logger for structured logging.
+func NewWithLogger(client *azsecrets.Client, log logging.Logger) *AzureKeyVaultProvider {
+	return &AzureKeyVaultProvider{
+		client: client,
+		log:    log,
 	}
 }
 
@@ -44,15 +56,18 @@ func (p *AzureKeyVaultProvider) GetSecrets(
 ) ([]plugin.Envelope, error) {
 
 	requestID := pattern.String()
+	p.log.Debug("GetSecrets called", "requestID", requestID)
 
 	secretName, err := parseSecretName(requestID)
 	if err != nil {
+		p.log.Error("failed to parse secret name", "error", err)
 		return nil, err
 	}
 
 	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 	defer cancel()
 
+	p.log.Debug("retrieving secret from Azure Key Vault", "secretName", secretName)
 	response, err := p.client.GetSecret(
 		ctx,
 		secretName,
@@ -60,6 +75,7 @@ func (p *AzureKeyVaultProvider) GetSecrets(
 		nil,
 	)
 	if err != nil {
+		p.log.Error("failed to retrieve secret", "secretName", secretName, "error", err)
 		return nil, fmt.Errorf(
 			"failed to retrieve secret %q from Azure Key Vault: %w",
 			secretName,
@@ -68,6 +84,7 @@ func (p *AzureKeyVaultProvider) GetSecrets(
 	}
 
 	if response.Value == nil {
+		p.log.Error("Azure Key Vault returned empty value", "secretName", secretName)
 		return nil, fmt.Errorf(
 			"Azure Key Vault returned an empty value for secret %q",
 			secretName,
@@ -75,6 +92,7 @@ func (p *AzureKeyVaultProvider) GetSecrets(
 	}
 
 	id := plugin.MustParseID(requestID)
+	p.log.Info("successfully retrieved secret", "secretName", secretName)
 
 	return []plugin.Envelope{
 		{
@@ -109,6 +127,10 @@ func parseSecretName(requestID string) (string, error) {
 	}
 
 	secretName := strings.TrimPrefix(requestID, secretPrefix)
+
+	if secretName == "" {
+		return "", fmt.Errorf("Secret name cannot be empty")
+	}
 
 	if strings.Contains(secretName, "/") {
 		return "", fmt.Errorf(
