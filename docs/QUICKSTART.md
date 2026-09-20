@@ -32,6 +32,21 @@ az login
 $env:AZURE_KEYVAULT_URL="https://myvault.vault.azure.net/"
 ```
 
+### Method D: Device Code Login (Headless/Remote)
+```powershell
+# Start device code authentication flow
+az login --use-device-code
+
+# You'll see a URL and device code. Open the URL in another device's browser
+# and enter the code when prompted. Then set:
+$env:AZURE_KEYVAULT_URL="https://myvault.vault.azure.net/"
+```
+This method is useful for:
+- Headless environments without browser access
+- Remote machines or SSH sessions
+- CI/CD pipelines in restricted environments
+- Automated deployments where interactive login isn't possible
+
 ## 3. Create a Test Secret in Azure Key Vault
 
 ```bash

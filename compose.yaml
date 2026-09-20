@@ -1,0 +1,12 @@
+services:
+  azure-keyvault-provider:
+    image: ${DESKTOP_PLUGIN_IMAGE}
+
+    environment:
+      DOCKER_SECRETS_ENGINE_SOCKET: /run/secrets-engine.sock
+      AZURE_KEYVAULT_URL: https://gmf-test-kv.vault.azure.net/
+      AZURE_TENANT_ID: 92599ec7-1440-41c0-bb2c-efbfa6ae1ad6
+      AZURE_CLIENT_ID: ace6c6f3-79b4-47a5-ad43-0e5f6168c6f1
+
+    volumes:
+      - /var/run/host-services/secrets-engine.sock:/run/secrets-engine.sock
