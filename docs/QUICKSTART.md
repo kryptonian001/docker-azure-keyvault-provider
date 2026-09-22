@@ -10,9 +10,7 @@ Get the Azure Key Vault Secrets Provider running in 5 minutes.
 
 ## 2. Prepare Azure Credentials
 
-Choose one method:
-
-### Method A: Service Principal (Development)
+### Service Principal Authentication (Currently Supported)
 ```powershell
 # Set environment variables
 $env:AZURE_CLIENT_ID="<your-client-id>"
@@ -21,31 +19,10 @@ $env:AZURE_TENANT_ID="<your-tenant-id>"
 $env:AZURE_KEYVAULT_URL="https://myvault.vault.azure.net/"
 ```
 
-### Method B: Managed Identity (Production on Azure)
-```powershell
-$env:AZURE_KEYVAULT_URL="https://myvault.vault.azure.net/"
-```
-
-### Method C: Azure CLI (Local Development)
-```powershell
-az login
-$env:AZURE_KEYVAULT_URL="https://myvault.vault.azure.net/"
-```
-
-### Method D: Device Code Login (Headless/Remote)
-```powershell
-# Start device code authentication flow
-az login --use-device-code
-
-# You'll see a URL and device code. Open the URL in another device's browser
-# and enter the code when prompted. Then set:
-$env:AZURE_KEYVAULT_URL="https://myvault.vault.azure.net/"
-```
-This method is useful for:
-- Headless environments without browser access
-- Remote machines or SSH sessions
-- CI/CD pipelines in restricted environments
-- Automated deployments where interactive login isn't possible
+### Future Authentication Methods (Coming Soon)
+- **Managed Identity**: Production deployments on Azure (planned)
+- **Azure CLI**: Using local Azure CLI cached credentials (planned)
+- **Device Code**: For headless/remote environments (planned)
 
 ## 3. Create a Test Secret in Azure Key Vault
 
