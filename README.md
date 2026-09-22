@@ -18,7 +18,7 @@ This plugin enables Docker to use secrets stored in Azure Key Vault. When Docker
 ## Key Features
 
 - 🔐 Azure Key Vault integration for Docker Secrets Engine
-- 🔑 Support for managed identity and service principal authentication
+- 🔑 Service principal authentication (Managed Identity support coming soon)
 - 📦 Simple secret ID format: `azure/<secret-name>`
 - 🚀 Production-ready with comprehensive documentation
 - 📚 Full API documentation with GoDoc comments
@@ -29,7 +29,7 @@ This plugin enables Docker to use secrets stored in Azure Key Vault. When Docker
 
 - Windows 10+ or macOS/Linux with Docker Desktop
 - Azure Key Vault instance
-- Azure credentials (managed identity or service principal)
+- Azure service principal credentials
 
 ### 2. Quick Setup
 
@@ -103,9 +103,9 @@ All documentation has been organized in the `docs/` folder:
 ## Security
 
 - Never commit credentials to version control
-- Use managed identity in production
+- Rotate service principal credentials regularly
 - Follow Azure Key Vault access best practices
-- Rotate credentials regularly
+- Managed Identity support is planned for production deployments
 
 For more details, see [docs/README.md](docs/README.md#security-considerations).
 
